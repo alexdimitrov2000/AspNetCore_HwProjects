@@ -1,0 +1,8 @@
+﻿@if (!User.Identity.IsAuthenticated)
+{
+    <partial name="Home/_NotLoggedPartial"/>
+}
+else
+{
+    <partial name="Home/_LoggedPartial" />
+}
