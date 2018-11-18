@@ -1,0 +1,16 @@
+﻿@*<main>
+        <div class="jumbotron mt-3 eventures-bg-color">
+            <h1>Eventures - The best ticket service in the world.</h1>
+            <hr class="bg-black hr-2" />
+            <h3><a class="nav-link-dark" asp-area="Identity" asp-controller="Account" asp-action="Login">Login</a> to start "eventing".</h3>
+            <h3><a class="nav-link-dark" asp-area="Identity" asp-controller="Account" asp-action="Register">Register</a> if you don't have an account.</h3>
+        </div>
+    </main>*@
+@if (!User.Identity.IsAuthenticated)
+{
+    <partial name="Home/_NotLoggedPartial" />
+}
+else
+{
+    <partial name="Home/_LoggedPartial" />
+}
