@@ -44,21 +44,20 @@ namespace Eventures.Web.Areas.Identity.Pages.Account
             [Required]
             [Display(Name = "Username")]
             [StringLength(100, MinimumLength = 3)]
+            [RegularExpression("[0-9a-zA-Z-_.*~]+")]
             public string Username { get; set; }
-
-            [Required]
+            
             [Display(Name = "First Name")]
             [StringLength(100, MinimumLength = 4)]
             public string FirstName { get; set; }
-
-            [Required]
+            
             [Display(Name = "Last Name")]
             [StringLength(100, MinimumLength = 4)]
             public string LastName { get; set; }
 
             [Required]
             [Display(Name = "UCN")]
-            [StringLength(100, MinimumLength = 5)]
+            [StringLength(10, MinimumLength = 10, ErrorMessage = "UCN must be exactly {2} digits long.")]
             public string UCN { get; set; }
 
             [Required]
@@ -67,11 +66,14 @@ namespace Eventures.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
-            [DataType(DataType.Password)]
+            [RegularExpression(".")]
             [Display(Name = "Password")]
+            [DataType(DataType.Password)]
+            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
             public string Password { get; set; }
 
+            [Required]
+            [RegularExpression(".")]
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]

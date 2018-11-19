@@ -26,8 +26,8 @@ namespace Eventures.Web.Controllers
                 .Select(e => new EventViewModel
                 {
                     Name = e.Name,
-                    Start = e.Start.ToString(),
-                    End = e.End.ToString(),
+                    Start = e.Start.ToString("dd-MMM-yy hh:mm:ss"),
+                    End = e.End.ToString("dd-MMM-yy hh:mm:ss"),
                     Place = e.Place
                 })
                 .ToList();
