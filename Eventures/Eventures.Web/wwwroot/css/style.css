@@ -7,6 +7,14 @@ nav a {
     color: #000000; 
 }
 
+.dropdown a {
+    font-weight: normal;
+}
+
+li .dropdown button {
+    padding-top: 7px;
+}
+
 .text-bold {
     font-weight: bold;
 }
