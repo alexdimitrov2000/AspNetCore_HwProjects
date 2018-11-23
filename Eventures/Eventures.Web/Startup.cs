@@ -1,5 +1,7 @@
 ﻿using Eventures.Data;
 using Eventures.Models;
+using Eventures.Services;
+using Eventures.Services.Contracts;
 using Eventures.Web.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,6 +55,8 @@ namespace Eventures.Web
                     .AddDefaultTokenProviders()
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<EventuresDbContext>();
+
+            services.AddTransient<IEventsService, EventsService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

@@ -1,29 +1,29 @@
-﻿using Eventures.Data;
-using Eventures.Models;
+﻿using Eventures.Services.Contracts;
 using Eventures.Web.CustomFIlters;
 using Eventures.Web.Models.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Eventures.Web.Controllers
 {
-    public class EventsController : BaseController
+    public class EventsController : Controller
     {
         private readonly ILogger<EventsController> logger;
+        private readonly IEventsService eventsService;
 
-        public EventsController(EventuresDbContext context, ILogger<EventsController> logger) : base(context)
+        public EventsController(ILogger<EventsController> logger, IEventsService eventsService)
         {
             this.logger = logger;
+            this.eventsService = eventsService;
         }
 
         [Authorize]
         public IActionResult All()
         {
-            var events = this.Context.Events
-                .OrderBy(e => e.Start)
+            var events = this.eventsService.GetAllOrderedByStart()
                 .Select(e => new EventViewModel
                 {
                     Name = e.Name,
@@ -48,27 +48,16 @@ namespace Eventures.Web.Controllers
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [TypeFilter(typeof(EventCreateActionFIlter))]
-        public IActionResult Create(EventCreateViewModel model)
+        public async Task<IActionResult> Create(EventCreateViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return this.View(model);
             }
 
-            var @event = new Event
-            {
-                Name = model.Name,
-                Place = model.Place,
-                TicketPrice = (decimal)model.TicketPrice,
-                TotalTickets = (int)model.TotalTickets,
-                Start = (DateTime)model.Start,
-                End = (DateTime)model.End,
-            };
+            await this.eventsService.CreateAsync(model.Name, model.Place, model.TicketPrice, model.TotalTickets, model.Start, model.End);
 
-            this.Context.Events.Add(@event);
-            this.Context.SaveChanges();
-
-            this.logger.LogInformation("Event created: " + @event.Name, @event);
+            this.logger.LogInformation("Event created: " + model.Name, model);
 
             return this.Redirect("/Events/All");
         }

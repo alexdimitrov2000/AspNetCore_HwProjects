@@ -9,16 +9,16 @@ namespace Eventures.Web.Models.Events
     {
         [Required(ErrorMessage = "'{0}' field is required.")]
         [StringLength(int.MaxValue, MinimumLength = 10, ErrorMessage = "'{0}' must be at least 10 characters long.")]
-        [RegularExpression(".")]
+        [RegularExpression(".+")]
         public string Name { get; set; }
 
-        [RegularExpression(".")]
+        [RegularExpression(".+")]
         [Required(ErrorMessage = "'{0}' field is required and cannot be empty.")]
         [StringLength(int.MaxValue, MinimumLength = 1, ErrorMessage = "'{0}' field is required and cannot be empty.")]
         public string Place { get; set; }
 
         [Required(ErrorMessage = "'{0}' field must be a valid Date.")]
-        [DataType(DataType.Date, ErrorMessage = "'{0}' field must be a valid Date.")]
+        [DataType(DataType.DateTime, ErrorMessage = "'{0}' field must be a valid Date.")]
         public DateTime? Start { get; set; }
 
         [Required(ErrorMessage = "'{0}' field must be a valid Date.")]
