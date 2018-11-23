@@ -5,6 +5,7 @@ using Eventures.Web.Models.Events;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 
 namespace Eventures.Web.Controllers
@@ -59,9 +60,9 @@ namespace Eventures.Web.Controllers
                 Name = model.Name,
                 Place = model.Place,
                 TicketPrice = (decimal)model.TicketPrice,
-                TotalTickets = model.TotalTickets,
-                Start = model.Start,
-                End = model.End,
+                TotalTickets = (int)model.TotalTickets,
+                Start = (DateTime)model.Start,
+                End = (DateTime)model.End,
             };
 
             this.Context.Events.Add(@event);
