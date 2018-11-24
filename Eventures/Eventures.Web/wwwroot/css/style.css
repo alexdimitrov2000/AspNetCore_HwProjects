@@ -58,6 +58,10 @@ textarea {
     height: 2px;
 }
 
+.table-form label, input {
+    margin-right: 10px;
+}
+
 .pale-line {
     background-color: #c4c4c4;
     height: 3px;

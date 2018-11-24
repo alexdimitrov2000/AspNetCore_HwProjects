@@ -8,21 +8,27 @@
             <tr class="row" style="margin-left: 0px; margin-right: 0px;">
                 <th class="col-md-1"><strong>#</strong></th>
                 <th class="col-md-3"><strong>Name</strong></th>
-                <th class="col-md-3"><strong>Start</strong></th>
-                <th class="col-md-3"><strong>End</strong></th>
-                <th class="col-md-2"><strong>Place</strong></th>
+                <th class="col-md-2"><strong>Start</strong></th>
+                <th class="col-md-2"><strong>End</strong></th>
+                <th class="col-md-4"><strong>Actions</strong></th>
         </thead>
         <tbody>
             @for (int i = 0; i < Model.Events.Count(); i++)
             {
-                <tr class="row">
+                <tr class="row m-0">
                     @{ var currentEvent = Model.Events[i]; }
                     @{ var rowNumber = i + 1; }
                     <td class="col-md-1"><strong>@rowNumber</strong></td>
                     <td class="col-md-3">@currentEvent.Name</td>
-                    <td class="col-md-3">@currentEvent.Start</td>
-                    <td class="col-md-3">@currentEvent.End</td>
-                    <td class="col-md-2">@currentEvent.Place</td>
+                    <td class="col-md-2">@currentEvent.Start</td>
+                    <td class="col-md-2">@currentEvent.End</td>
+                    <td class="col-md-4">
+                        <form class="table-form" asp-controller="Events" asp-action="Order" asp-route-id="@currentEvent.Id" method="post" style="display:flex">
+                            <label for="tickets" class="text-bold mr-10">Tickets</label>
+                            <input class="form-control w-50" type="number" id="tickets" name="tickets" />
+                            <button type="submit" class="btn eventures-bg-color">Order</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>

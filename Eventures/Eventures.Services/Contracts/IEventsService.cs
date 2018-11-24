@@ -10,5 +10,9 @@ namespace Eventures.Services.Contracts
         Task CreateAsync(string name, string place, decimal? ticketPrice, int? totalTickets, DateTime? start, DateTime? end);
 
         List<Event> GetAllOrderedByStart();
+
+        Event GetEventById(string id);
+
+        List<Order> GetMyEventsOrders(string customerId);
     }
 }

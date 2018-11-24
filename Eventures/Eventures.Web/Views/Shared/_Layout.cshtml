@@ -36,6 +36,7 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="All">All Events</a>
+                                            <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="MyEvents">My Events</a>
                                             @if (User.IsInRole("Admin"))
                                             {
                                                 <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="Create">Create Event</a>
@@ -43,6 +44,19 @@
                                         </div>
                                     </div>
                                 </li>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <div class="dropdown mt-2px">
+                                            <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                                Orders
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="nav-link nav-link-white ml-1" asp-controller="Orders" asp-action="All">All Orders</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
                             </ul>
                             <ul class="navbar-nav left-side">
                                 <li class="nav-item">

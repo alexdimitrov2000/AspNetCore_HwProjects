@@ -57,6 +57,7 @@ namespace Eventures.Web
                     .AddEntityFrameworkStores<EventuresDbContext>();
 
             services.AddTransient<IEventsService, EventsService>();
+            services.AddTransient<IOrdersService, OrdersService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

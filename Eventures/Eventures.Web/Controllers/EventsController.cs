@@ -1,7 +1,9 @@
-﻿using Eventures.Services.Contracts;
+﻿using Eventures.Models;
+using Eventures.Services.Contracts;
 using Eventures.Web.CustomFIlters;
 using Eventures.Web.Models.Events;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -12,12 +14,16 @@ namespace Eventures.Web.Controllers
     public class EventsController : Controller
     {
         private readonly ILogger<EventsController> logger;
+        private readonly UserManager<User> userManager;
         private readonly IEventsService eventsService;
+        private readonly IOrdersService ordersService;
 
-        public EventsController(ILogger<EventsController> logger, IEventsService eventsService)
+        public EventsController(ILogger<EventsController> logger, UserManager<User> userManager, IEventsService eventsService, IOrdersService ordersService)
         {
             this.logger = logger;
+            this.userManager = userManager;
             this.eventsService = eventsService;
+            this.ordersService = ordersService;
         }
 
         [Authorize]
@@ -26,6 +32,7 @@ namespace Eventures.Web.Controllers
             var events = this.eventsService.GetAllOrderedByStart()
                 .Select(e => new EventViewModel
                 {
+                    Id = e.Id,
                     Name = e.Name,
                     Start = e.Start.ToString("dd-MMM-yy hh:mm:ss"),
                     End = e.End.ToString("dd-MMM-yy hh:mm:ss"),
@@ -37,6 +44,38 @@ namespace Eventures.Web.Controllers
             {
                 Events = events
             });
+        }
+
+        [Authorize]
+        public IActionResult MyEvents()
+        {
+            var customerId = this.userManager.GetUserId(this.User);
+            var myEvents = this.eventsService.GetMyEventsOrders(customerId)
+                .OrderBy(o => o.Event.Start)
+                .Select(o => new MyEventViewModel
+                {
+                    Name = o.Event.Name,
+                    Start = o.Event.Start.ToString("dd-MMM-yy hh:mm:ss"),
+                    End = o.Event.End.ToString("dd-MMM-yy hh:mm:ss"),
+                    Tickets = o.TicketsCount
+                })
+                .ToList();
+
+            return this.View(new MyEventsCollectionViewModel
+            {
+                MyEvents = myEvents
+            });
+        }
+
+        [Authorize]
+        public async Task<IActionResult> Order(string id, int tickets)
+        {
+            var @event = this.eventsService.GetEventById(id);
+            var customer = this.userManager.GetUserAsync(this.User).Result;
+
+            await this.ordersService.CreateAsync(@event, tickets, customer);
+
+            return this.Redirect("/Events/MyEvents");
         }
 
         [Authorize(Roles = "Admin")]
