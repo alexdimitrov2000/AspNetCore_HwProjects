@@ -25,59 +25,33 @@
                     <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            if (User.IsInRole("Admin"))
-                            {
-                                <ul class="navbar-nav right-side">
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-white" asp-controller="" asp-action="">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="dropdown mt-2px">
-                                            <button class="btn eventures-bg-color dropdown-toggle text-bold" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                                Events
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="All">All Events</a>
+                            <ul class="navbar-nav right-side">
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-white" asp-controller="" asp-action="">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <div class="dropdown mt-2px">
+                                        <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                            Events
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="All">All Events</a>
+                                            @if (User.IsInRole("Admin"))
+                                            {
                                                 <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="Create">Create Event</a>
-                                            </div>
+                                            }
                                         </div>
-                                    </li>
-                                </ul>
-                                <ul class="navbar-nav left-side">
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-white">Hello, @User.Identity.Name!</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-white" asp-area="Identity" asp-controller="Account" asp-action="Logout">Logout</a>
-                                    </li>
-                                </ul>
-                            }
-                            else
-                            {
-                                <ul class="navbar-nav right-side">
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-white" asp-controller="" asp-action="">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <div class="dropdown mt-2px">
-                                            <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                                Events
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="All">All Events</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="navbar-nav left-side">
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-white">Hello, @User.Identity.Name!</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link nav-link-white" asp-area="Identity" asp-controller="Account" asp-action="Logout">Logout</a>
-                                    </li>
-                                </ul>
-                            }
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="navbar-nav left-side">
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-white">Hello, @User.Identity.Name!</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link nav-link-white" asp-area="Identity" asp-controller="Account" asp-action="Logout">Logout</a>
+                                </li>
+                            </ul>
                         }
                         else
                         {
