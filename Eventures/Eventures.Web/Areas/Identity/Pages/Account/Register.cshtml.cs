@@ -66,7 +66,7 @@ namespace Eventures.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [RegularExpression(".+")]
+            [RegularExpression(".")]
             [Display(Name = "Password")]
             [DataType(DataType.Password)]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 5)]
