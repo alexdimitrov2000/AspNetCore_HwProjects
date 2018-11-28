@@ -1,4 +1,5 @@
-﻿using Eventures.Data;
+﻿using AutoMapper;
+using Eventures.Data;
 using Eventures.Models;
 using Eventures.Services;
 using Eventures.Services.Contracts;
@@ -55,6 +56,15 @@ namespace Eventures.Web
                     .AddDefaultTokenProviders()
                     .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<EventuresDbContext>();
+
+            services.AddAuthentication()
+                .AddFacebook(facebookOptions =>
+                {
+                    facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
+                    facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                });
+
+            services.AddAutoMapper();
 
             services.AddTransient<IEventsService, EventsService>();
             services.AddTransient<IOrdersService, OrdersService>();

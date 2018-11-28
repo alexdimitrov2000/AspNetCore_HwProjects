@@ -1,4 +1,5 @@
-﻿using Eventures.Models;
+﻿using AutoMapper;
+using Eventures.Models;
 using Eventures.Services.Contracts;
 using Eventures.Web.CustomFIlters;
 using Eventures.Web.Models.Events;
@@ -17,28 +18,27 @@ namespace Eventures.Web.Controllers
         private readonly UserManager<User> userManager;
         private readonly IEventsService eventsService;
         private readonly IOrdersService ordersService;
+        private readonly IMapper mapper;
 
-        public EventsController(ILogger<EventsController> logger, UserManager<User> userManager, IEventsService eventsService, IOrdersService ordersService)
+        public EventsController(ILogger<EventsController> logger, 
+                                UserManager<User> userManager, 
+                                IEventsService eventsService,
+                                IOrdersService ordersService, 
+                                IMapper mapper)
         {
             this.logger = logger;
             this.userManager = userManager;
             this.eventsService = eventsService;
             this.ordersService = ordersService;
+            this.mapper = mapper;
         }
 
         [Authorize]
         public IActionResult All()
         {
             var events = this.eventsService.GetAllOrderedByStart()
-                .Select(e => new EventViewModel
-                {
-                    Id = e.Id,
-                    Name = e.Name,
-                    Start = e.Start.ToString("dd-MMM-yy hh:mm:ss"),
-                    End = e.End.ToString("dd-MMM-yy hh:mm:ss"),
-                    Place = e.Place
-                })
-                .ToList();
+               .Select(e => this.mapper.Map<EventViewModel>(e))
+               .ToList();
 
             return this.View(new EventCollectionViewModel
             {
@@ -52,13 +52,7 @@ namespace Eventures.Web.Controllers
             var customerId = this.userManager.GetUserId(this.User);
             var myEvents = this.eventsService.GetMyEventsOrders(customerId)
                 .OrderBy(o => o.Event.Start)
-                .Select(o => new MyEventViewModel
-                {
-                    Name = o.Event.Name,
-                    Start = o.Event.Start.ToString("dd-MMM-yy hh:mm:ss"),
-                    End = o.Event.End.ToString("dd-MMM-yy hh:mm:ss"),
-                    Tickets = o.TicketsCount
-                })
+                .Select(o => this.mapper.Map<MyEventViewModel>(o))
                 .ToList();
 
             return this.View(new MyEventsCollectionViewModel
