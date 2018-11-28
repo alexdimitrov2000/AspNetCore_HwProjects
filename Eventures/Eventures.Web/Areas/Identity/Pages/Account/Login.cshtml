@@ -20,7 +20,6 @@
                 <input asp-for="Input.Password" class="form-control" placeholder="Password..." />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <hr class="form-line" />
             <div class="form-group">
                 <div class="checkbox">
                     <label asp-for="Input.RememberMe">
@@ -39,4 +38,19 @@
             <div><a asp-area="Identity" asp-controller="Account" asp-action="Register">Register as a new user</a></div>
         </div>
     </form>
+    @{
+        if ((Model.ExternalLogins?.Count ?? 0) != 0)
+        {
+            <form class="mx-auto quarter-width text-center" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                <hr class="form-line" />
+                <div>
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <button type="submit" class="btn eventures-bg-color" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
+                    }
+                </div>
+                <hr class="form-line" />
+            </form>
+        }
+    }
 </main>
