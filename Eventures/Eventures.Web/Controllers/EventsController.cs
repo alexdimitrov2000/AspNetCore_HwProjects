@@ -37,8 +37,11 @@ namespace Eventures.Web.Controllers
         public IActionResult All()
         {
             var events = this.eventsService.GetAllOrderedByStart()
+               .Where(e => e.TotalTickets > 0)
                .Select(e => this.mapper.Map<EventViewModel>(e))
                .ToList();
+
+            var eventId = this.TempData["EventId"];
 
             return this.View(new EventCollectionViewModel
             {
@@ -66,6 +69,13 @@ namespace Eventures.Web.Controllers
         {
             var @event = this.eventsService.GetEventById(id);
             var customer = this.userManager.GetUserAsync(this.User).Result;
+
+            if (@event.TotalTickets < tickets)
+            {
+                this.TempData["Error"] = $"You cannot order {tickets} tickets for this event. There are only {@event.TotalTickets} tickets left.";
+                this.TempData["EventId"] = @event.Id;
+                return this.RedirectToAction("All", "Events", tickets);
+            }
 
             await this.ordersService.CreateAsync(@event, tickets, customer);
 

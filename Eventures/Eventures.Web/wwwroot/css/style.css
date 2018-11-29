@@ -58,6 +58,11 @@ textarea {
     height: 2px;
 }
 
+.form-error {
+    color: red;
+    font-size: small;
+}
+
 .table-form label, input {
     margin-right: 10px;
 }

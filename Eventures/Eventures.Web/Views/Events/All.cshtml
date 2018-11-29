@@ -28,6 +28,10 @@
                             <input class="form-control w-50" type="number" id="tickets" name="tickets" />
                             <button type="submit" class="btn eventures-bg-color">Order</button>
                         </form>
+                        @if (this.TempData["Error"] != null && this.TempData["EventId"].ToString() == currentEvent.Id)
+                        {
+                            <h5 class="form-error text-bold">@this.TempData["Error"]</h5>
+                        }
                     </td>
                 </tr>
             }

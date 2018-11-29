@@ -28,6 +28,7 @@
             };
 
             await this.context.Orders.AddAsync(order);
+            @event.TotalTickets -= tickets;
             await this.context.SaveChangesAsync();
         }
 
