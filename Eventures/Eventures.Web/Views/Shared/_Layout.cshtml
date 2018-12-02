@@ -25,39 +25,50 @@
                     <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarNav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <ul class="navbar-nav right-side">
+                        <ul class="navbar-nav right-side">
+                            <li class="nav-item">
+                                <a class="nav-link nav-link-white" asp-area="" asp-controller="" asp-action="">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <div class="dropdown">
+                                    <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                        Events
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="nav-link nav-link-white ml-1" asp-area="" asp-controller="Events" asp-action="All">All Events</a>
+                                        <a class="nav-link nav-link-white ml-1" asp-area="" asp-controller="Events" asp-action="MyEvents">My Events</a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a class="nav-link nav-link-white ml-1" asp-area="" asp-controller="Events" asp-action="Create">Create Event</a>
+                                        }
+                                    </div>
+                                </div>
+                            </li>
+                            @if (User.IsInRole("Admin"))
+                            {
                                 <li class="nav-item">
-                                    <a class="nav-link nav-link-white" asp-controller="" asp-action="">Home</a>
+                                    <div class="dropdown">
+                                        <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
+                                            Orders
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="nav-link nav-link-white ml-1" asp-area="" asp-controller="Orders" asp-action="All">All Orders</a>
+                                        </div>
+                                    </div>
                                 </li>
                                 <li class="nav-item">
                                     <div class="dropdown">
                                         <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                            Events
+                                            Administration
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="All">All Events</a>
-                                            <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="MyEvents">My Events</a>
-                                            @if (User.IsInRole("Admin"))
-                                            {
-                                                <a class="nav-link nav-link-white ml-1" asp-controller="Events" asp-action="Create">Create Event</a>
-                                            }
+                                            <a class="nav-link nav-link-white ml-1" asp-area="Administration" asp-controller="Admins" asp-action="Promote">Promote users</a>
+                                            <a class="nav-link nav-link-white ml-1" asp-area="Administration" asp-controller="Admins" asp-action="Demote">Demote admins</a>
                                         </div>
                                     </div>
                                 </li>
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li class="nav-item">
-                                        <div class="dropdown">
-                                            <button class="btn eventures-bg-color dropdown-toggle text-bold" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-expanded="false">
-                                                Orders
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="nav-link nav-link-white ml-1" asp-controller="Orders" asp-action="All">All Orders</a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                }
-                            </ul>
+                            }
+                        </ul>
                             <ul class="navbar-nav left-side">
                                 <li class="nav-item">
                                     <a class="nav-link nav-link-white">Hello, @User.Identity.Name!</a>

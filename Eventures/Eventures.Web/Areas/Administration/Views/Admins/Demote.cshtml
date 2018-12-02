@@ -1,0 +1,67 @@
+﻿@model UserCollectionViewModel
+@{
+    var pageNumber = (int)this.ViewData["Page"];
+    var previousPageNumber = pageNumber - 1;
+    var nextPageNumber = pageNumber + 1;
+
+    var hasNextPage = (bool)this.ViewData["HasNextPage"];
+    var pageEntities = (int)this.ViewData["PageEntities"];
+}
+
+<main class="mt-3">
+    <h1 class="text-center">Admin Users</h1>
+    <hr class="form-line" />
+    <table class="table mx-auto table-hover">
+        <thead>
+            <tr class="row" style="margin-left: 0px; margin-right: 0px;">
+                <th class="col-md-1"><strong>#</strong></th>
+                <th class="col-md-3"><strong>Full Name</strong></th>
+                <th class="col-md-3"><strong>Username</strong></th>
+                <th class="col-md-3"><strong>Email</strong></th>
+                <th class="col-md-2"><strong>Actions</strong></th>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.AdminUsers.Count(); i++)
+            {
+                <tr class="row m-0">
+                    @{
+                        var currentUser = Model.AdminUsers[i];
+                    }
+                    @{ var rowNumber = i + 1 + (pageNumber - 1) * pageEntities; }
+                    <td class="col-md-1"><strong>@rowNumber</strong></td>
+                    <td class="col-md-3">@currentUser.FullName</td>
+                    <td class="col-md-3">@currentUser.Username</td>
+                    <td class="col-md-3">@currentUser.Email</td>
+                    <td class="col-md-2">
+                        <form class="table-form" asp-action="Demote" asp-route-id="@currentUser.Id" method="post">
+                            <button type="submit" class="btn eventures-bg-color">Demote to regular User</button>
+                        </form>
+                        @if (this.TempData["Error"] != null && this.TempData["UserId"].ToString() == currentUser.Id)
+                        {
+                            <h5 class="form-error text-bold">@this.TempData["Error"]</h5>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr class="form-line" />
+    <div class="d-flex justify-content-between">
+        @if (previousPageNumber < 1)
+        {
+            <button class="btn eventures-bg-color" asp-area="Administration" asp-action="Promote" asp-route-page="@previousPageNumber" disabled>Previous Page</button>
+        }
+        else
+        {
+            <a class="btn eventures-bg-color" asp-area="Administration" asp-action="Promote" asp-route-page="@previousPageNumber">Previous Page</a>
+        }
+        @if (!hasNextPage)
+        {
+            <button class="btn eventures-bg-color" asp-area="Administration" asp-action="Promote" asp-route-page="@nextPageNumber" disabled>Next Page</button>
+        }
+        else
+        {
+            <a class="btn eventures-bg-color" asp-area="Administration" asp-action="Promote" asp-route-page="@nextPageNumber">Next Page</a>
+        }
+    </div>
+</main>

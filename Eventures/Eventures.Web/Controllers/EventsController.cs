@@ -49,6 +49,7 @@ namespace Eventures.Web.Controllers
 
             this.ViewData["Page"] = page;
             this.ViewData["HasNextPage"] = ((page + 1) * NumberOfEntitiesOnPage) - NumberOfEntitiesOnPage < events.Count();
+            this.ViewData["PageEntities"] = NumberOfEntitiesOnPage;
 
             return this.View(new EventCollectionViewModel
             {
@@ -73,6 +74,7 @@ namespace Eventures.Web.Controllers
 
             this.ViewData["Page"] = page;
             this.ViewData["HasNextPage"] = ((page + 1) * NumberOfEntitiesOnPage) - NumberOfEntitiesOnPage < myEvents.Count();
+            this.ViewData["PageEntities"] = NumberOfEntitiesOnPage;
 
             return this.View(new MyEventsCollectionViewModel
             {

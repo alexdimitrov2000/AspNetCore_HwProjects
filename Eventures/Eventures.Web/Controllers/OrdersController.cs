@@ -34,6 +34,7 @@
 
             this.ViewData["Page"] = page;
             this.ViewData["HasNextPage"] = ((page + 1) * NumberOfEntitiesOnPage) - NumberOfEntitiesOnPage < orders.Count();
+            this.ViewData["PageEntities"] = NumberOfEntitiesOnPage;
 
             return this.View(new OrderCollectionViewModel
             {

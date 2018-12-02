@@ -5,6 +5,7 @@
     var nextPageNumber = pageNumber + 1;
 
     var hasNextPage = (bool)this.ViewData["HasNextPage"];
+    var pageEntities = (int)this.ViewData["PageEntities"];
 }
 
 <main class="mt-3">
@@ -24,7 +25,7 @@
             {
                 <tr class="row m-0">
                     @{ var currentEvent = Model.MyEvents[i]; }
-                    @{ var rowNumber = i + 1 + (pageNumber - 1) * 10; }
+                    @{ var rowNumber = i + 1 + (pageNumber - 1) * pageEntities; }
                     <td class="col-md-1"><strong>@rowNumber</strong></td>
                     <td class="col-md-3">@currentEvent.Name</td>
                     <td class="col-md-3">@currentEvent.Start</td>

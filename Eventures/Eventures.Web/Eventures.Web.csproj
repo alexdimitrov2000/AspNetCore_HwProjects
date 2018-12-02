@@ -20,10 +20,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Administration\Data\" />
     <Folder Include="Areas\Identity\Services\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Areas\Administration\Views\Admins\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Administration\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Events\MyEvents.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

@@ -5,6 +5,7 @@
     using Eventures.Models;
 
     using AutoMapper;
+    using Eventures.Web.Areas.Administration.Models;
 
     public class EventuresProfile : Profile
     {
@@ -48,6 +49,11 @@
                 .ForMember(
                     o => o.OrderedOn,
                     opt => opt.MapFrom(src => src.OrderedOn.ToString("dd-MMM-yy hh:mm:ss")));
+
+            CreateMap<User, UserViewModel>()
+                .ForMember(
+                    o => o.FullName,
+                    opt => opt.MapFrom(src => src.FirstName + " " + src.LastName));
         }
     }
 }

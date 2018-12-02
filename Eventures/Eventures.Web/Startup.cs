@@ -68,6 +68,7 @@ namespace Eventures.Web
 
             services.AddTransient<IEventsService, EventsService>();
             services.AddTransient<IOrdersService, OrdersService>();
+            services.AddTransient<IAdminsService, AdminsService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

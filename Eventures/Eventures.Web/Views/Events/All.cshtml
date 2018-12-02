@@ -5,6 +5,7 @@
     var nextPageNumber = pageNumber + 1;
 
     var hasNextPage = (bool)this.ViewData["HasNextPage"];
+    var pageEntities = (int)this.ViewData["PageEntities"];
 }
 
 <main class="mt-3">
@@ -26,13 +27,13 @@
                     @{
                         var currentEvent = Model.Events[i];
                     }
-                    @{ var rowNumber = i + 1 + (pageNumber - 1) * 10; }
+                    @{ var rowNumber = i + 1 + (pageNumber - 1) * pageEntities; }
                     <td class="col-md-1"><strong>@rowNumber</strong></td>
                     <td class="col-md-3">@currentEvent.Name</td>
                     <td class="col-md-2">@currentEvent.Start</td>
                     <td class="col-md-2">@currentEvent.End</td>
                     <td class="col-md-4">
-                        <form class="table-form" asp-controller="Events" asp-action="Order" asp-route-id="@currentEvent.Id" method="post" style="display:flex">
+                        <form class="table-form" asp-area="" asp-controller="Events" asp-action="Order" asp-route-id="@currentEvent.Id" method="post" style="display:flex">
                             <label for="tickets" class="text-bold mr-10">Tickets</label>
                             <input class="form-control w-50" type="number" id="tickets" name="tickets" />
                             <button type="submit" class="btn eventures-bg-color">Order</button>
