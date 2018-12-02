@@ -36,7 +36,7 @@
                         <form class="table-form" asp-area="" asp-controller="Events" asp-action="Order" asp-route-id="@currentEvent.Id" method="post" style="display:flex">
                             <label for="tickets" class="text-bold mr-10">Tickets</label>
                             <input class="form-control w-50" type="number" id="tickets" name="tickets" />
-                            <button type="submit" class="btn eventures-bg-color">Order</button>
+                            <button type="submit" class="btn eventures-bg-color">Order <i class="fas fa-cart-plus"></i></button>
                         </form>
                         @if (this.TempData["Error"] != null && this.TempData["EventId"].ToString() == currentEvent.Id)
                         {
@@ -51,19 +51,19 @@
     <div class="d-flex justify-content-between">
         @if (previousPageNumber < 1)
         {
-            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@previousPageNumber" disabled>Previous Page</button>
+            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@previousPageNumber" disabled><i class="fas fa-chevron-circle-left"></i> Previous Page</button>
         }
         else
         {
-            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@previousPageNumber">Previous Page</a>
+            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@previousPageNumber"><i class="fas fa-chevron-circle-left"></i> Previous Page</a>
         }
         @if (!hasNextPage)
         {
-            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@nextPageNumber" disabled>Next Page</button>
+            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@nextPageNumber" disabled>Next Page <i class="fas fa-chevron-circle-right"></i></button>
         }
         else
         {
-            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@nextPageNumber">Next Page</a>
+            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="All" asp-route-page="@nextPageNumber">Next Page <i class="fas fa-chevron-circle-right"></i></a>
         }
     </div>
 </main>

@@ -39,19 +39,19 @@
     <div class="d-flex justify-content-between">
         @if (previousPageNumber < 1)
         {
-            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@previousPageNumber" disabled>Previous Page</button>
+            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@previousPageNumber" disabled><i class="fas fa-chevron-circle-left"></i> Previous Page</button>
         }
         else
         {
-            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@previousPageNumber">Previous Page</a>
+            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@previousPageNumber"><i class="fas fa-chevron-circle-left"></i> Previous Page</a>
         }
         @if (!hasNextPage)
         {
-            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@nextPageNumber" disabled>Next Page</button>
+            <button class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@nextPageNumber" disabled>Next Page <i class="fas fa-chevron-circle-right"></i></button>
         }
         else
         {
-            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@nextPageNumber">Next Page</a>
+            <a class="btn eventures-bg-color" asp-controller="Events" asp-action="MyEvents" asp-route-page="@nextPageNumber">Next Page <i class="fas fa-chevron-circle-right"></i></a>
         }
     </div>
 </main>

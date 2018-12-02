@@ -41,6 +41,15 @@ textarea {
     color: #000000;
 }
 
+.btn:hover {
+    background-color: #15c4c4;
+    color: #000000;
+}
+
+a:hover {
+    color: #076b6b;
+}
+
 .nav-link-dark {
     color: #04a1db
 }
