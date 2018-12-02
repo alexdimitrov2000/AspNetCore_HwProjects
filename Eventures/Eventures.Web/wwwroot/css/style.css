@@ -45,6 +45,10 @@ textarea {
     color: #04a1db
 }
 
+.dropdown {
+    margin-right: 2px;
+}
+
 .hr-2 {
     height: 2px;
 }

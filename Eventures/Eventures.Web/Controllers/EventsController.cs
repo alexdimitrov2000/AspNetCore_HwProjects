@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,16 +15,18 @@ namespace Eventures.Web.Controllers
 {
     public class EventsController : Controller
     {
+        private const int NumberOfEntitiesOnPage = GlobalConstants.NumberOfEntitiesOnPage;
+
         private readonly ILogger<EventsController> logger;
         private readonly UserManager<User> userManager;
         private readonly IEventsService eventsService;
         private readonly IOrdersService ordersService;
         private readonly IMapper mapper;
 
-        public EventsController(ILogger<EventsController> logger, 
-                                UserManager<User> userManager, 
+        public EventsController(ILogger<EventsController> logger,
+                                UserManager<User> userManager,
                                 IEventsService eventsService,
-                                IOrdersService ordersService, 
+                                IOrdersService ordersService,
                                 IMapper mapper)
         {
             this.logger = logger;
@@ -34,33 +37,49 @@ namespace Eventures.Web.Controllers
         }
 
         [Authorize]
-        public IActionResult All()
+        public IActionResult All(int page = 1)
         {
             var events = this.eventsService.GetAllOrderedByStart()
                .Where(e => e.TotalTickets > 0)
-               .Select(e => this.mapper.Map<EventViewModel>(e))
-               .ToList();
+               .Select(e => this.mapper.Map<EventViewModel>(e));
+            
+            var validatedPage = this.ValidatePage(page, events.Count());
+            if (validatedPage != page)
+                return this.Redirect($"/Events/All?page={validatedPage}");
 
-            var eventId = this.TempData["EventId"];
+            this.ViewData["Page"] = page;
+            this.ViewData["HasNextPage"] = ((page + 1) * NumberOfEntitiesOnPage) - NumberOfEntitiesOnPage < events.Count();
 
             return this.View(new EventCollectionViewModel
             {
                 Events = events
+                           .Skip((page - 1) * NumberOfEntitiesOnPage)
+                           .Take(NumberOfEntitiesOnPage)
+                           .ToList()
             });
         }
 
         [Authorize]
-        public IActionResult MyEvents()
+        public IActionResult MyEvents(int page = 1)
         {
             var customerId = this.userManager.GetUserId(this.User);
             var myEvents = this.eventsService.GetMyEventsOrders(customerId)
                 .OrderBy(o => o.Event.Start)
-                .Select(o => this.mapper.Map<MyEventViewModel>(o))
-                .ToList();
+                .Select(o => this.mapper.Map<MyEventViewModel>(o));
+
+            var validatedPage = this.ValidatePage(page, myEvents.Count());
+            if (validatedPage != page)
+                return this.Redirect($"/Events/MyEvents?page={validatedPage}");
+
+            this.ViewData["Page"] = page;
+            this.ViewData["HasNextPage"] = ((page + 1) * NumberOfEntitiesOnPage) - NumberOfEntitiesOnPage < myEvents.Count();
 
             return this.View(new MyEventsCollectionViewModel
             {
                 MyEvents = myEvents
+                           .Skip((page - 1) * NumberOfEntitiesOnPage)
+                           .Take(NumberOfEntitiesOnPage)
+                           .ToList()
             });
         }
 
@@ -103,6 +122,24 @@ namespace Eventures.Web.Controllers
             this.logger.LogInformation("Event created: " + model.Name, model);
 
             return this.Redirect("/Events/All");
+        }
+
+        private int ValidatePage(int page, int collectionCount)
+        {
+            if (page < 1)
+                return 1;
+
+            if ((page * NumberOfEntitiesOnPage) - NumberOfEntitiesOnPage > collectionCount)
+            {
+                if (collectionCount % NumberOfEntitiesOnPage != 0)
+                {
+                    page = (collectionCount / NumberOfEntitiesOnPage) + 1;
+
+                    return page;
+                }
+            }
+
+            return page;
         }
     }
 }
