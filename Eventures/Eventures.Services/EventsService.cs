@@ -45,8 +45,6 @@
 
         public List<Order> GetMyEventsOrders(string customerId)
         {
-            var events = this.context.Orders.Where(o => o.CustomerId == customerId).Select(o => o.Event).ToList();
-
             var orders = this.context.Orders.Where(o => o.CustomerId == customerId).ToList();
             return orders;
         }
