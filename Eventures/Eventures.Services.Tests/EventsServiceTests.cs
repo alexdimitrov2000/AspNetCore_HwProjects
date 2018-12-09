@@ -88,15 +88,21 @@ namespace Eventures.Services.Tests
         {
             var context = new EventuresDbContext(this.Options);
             
-            var @event = new Event { Id = "1" };
-            context.Events.Add(@event);
+            var events = new List<Event>
+            {
+                new Event { Id = "1", Name = "Event1" },
+                new Event { Id = "2", Name = "Event2" },
+                new Event { Id = "3", Name = "Event3" },
+            };
+            context.Events.AddRange(events);
             context.SaveChanges();
 
             var service = new EventsService(context);
 
             var resultEvent = service.GetEventById("1");
 
-            Assert.Equal(@event, resultEvent);
+            Assert.Equal(events[0], resultEvent);
+            Assert.Equal(events[0].Name, resultEvent.Name);
         }
 
         [Theory]
