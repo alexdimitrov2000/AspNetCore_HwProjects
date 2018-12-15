@@ -7,6 +7,7 @@
     using Contracts;
     using Eventures.Data;
     using Eventures.Models;
+    using Microsoft.EntityFrameworkCore;
 
     public class EventsService : IEventsService
     {
@@ -45,7 +46,7 @@
 
         public List<Order> GetMyEventsOrders(string customerId)
         {
-            var orders = this.context.Orders.Where(o => o.CustomerId == customerId).ToList();
+            var orders = this.context.Orders.Where(o => o.CustomerId == customerId).Include(o => o.Event).ToList();
             return orders;
         }
     }
